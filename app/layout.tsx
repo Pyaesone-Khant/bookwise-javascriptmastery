@@ -23,6 +23,9 @@ const babasNeue = localFont({
 export const metadata: Metadata = {
   title: "BookWise",
   description: "A university library website powered by Next.js, guided by Javascript Mastery!",
+  icons: {
+    icon: "/icons/logo.svg",
+  }
 };
 
 export default function RootLayout({
