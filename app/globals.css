@@ -50,7 +50,7 @@
   }
 
   .book-btn {
-    @apply bg-dark-600 mt-3 min-h-14 w-full font-bebas-neue text-base text-primary;
+    @apply !bg-dark-600 mt-3 min-h-14 w-full font-bebas-neue uppercase text-base text-primary;
   }
 
   /* Borrowed Book */
@@ -63,19 +63,12 @@
   }
 
   /* Book Cover */
-  .book-cover_extra_small {
-    @apply w-[28.95px] h-10;
-  }
 
   .book-cover_small {
     @apply w-[55px] h-[76px];
   }
 
-  .book-cover_medium {
-    @apply w-[144px] h-[199px];
-  }
-
-  .book-cover_regular {
+  .book-cover {
     @apply xs:w-[174px] w-[114px] xs:h-[239px] h-[169px];
   }
 

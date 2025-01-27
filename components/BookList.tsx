@@ -1,16 +1,38 @@
+import { BookCard } from "./BookCard";
+
+interface Props {
+    title: string;
+    books: Book[];
+    containerClassName?: string;
+}
 
 export function BookList({
     title,
     books,
     containerClassName,
-}) {
+}: Props) {
     return (
-        <section>
+        <section
+            className={containerClassName}
+        >
             <h2
-                className=" font-bebas-neue text-4xl text-center text-light-100"
+                className=" font-bebas-neue text-4xl  text-light-100"
             >
-                Popular Books
+                {title}
             </h2>
+
+            <ul
+                className="book-list"
+            >
+                {
+                    books?.map((book) => (
+                        <BookCard
+                            key={book.id}
+                            {...book}
+                        />
+                    ))
+                }
+            </ul>
         </section>
     )
 }

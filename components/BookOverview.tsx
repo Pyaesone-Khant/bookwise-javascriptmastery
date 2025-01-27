@@ -12,7 +12,7 @@ export function BookOverview({ title, author, genre, rating, totalCopies, availa
                 className="flex flex-1 flex-col gap-5"
             >
                 <h2
-                    className="text-4xl font-semibold font-bebas-neue text-light-100"
+                    className="text-7xl font-semibold font-bebas-neue text-light-100"
                 >{title}</h2>
                 <article
                     className="book-info"
@@ -64,7 +64,8 @@ export function BookOverview({ title, author, genre, rating, totalCopies, availa
                 </p>
 
                 <Button
-                    className="book-overview-btn"
+                    className="book-overview_btn"
+                    size={'lg'}
                 >
                     <Image
                         src={"/icons/book.svg"}
@@ -73,9 +74,9 @@ export function BookOverview({ title, author, genre, rating, totalCopies, availa
                         height={24}
                     />
                     <p
-                        className=" font-bebas-neue text-xl text-dark-100"
+                        className=" font-bebas-neue text-xl text-dark-100 uppercase"
                     >
-                        Borrow
+                        Borrow book request
                     </p>
                 </Button>
             </div>
@@ -90,16 +91,16 @@ export function BookOverview({ title, author, genre, rating, totalCopies, availa
                         coverColor={color}
                         coverImage={coverUrl}
                     />
+                    <div className=" absolute left-16 top-10 opacity-40 rotate-12 max-sm:hidden ">
+                        <BookCover
+                            variant="wide"
+                            className="z-10"
+                            coverColor={color}
+                            coverImage={coverUrl}
+                        />
+                    </div>
                 </div>
 
-                <div className=" absolute left-16 top-10 opacity-40 rotate-12 max-sm:hidden ">
-                    <BookCover
-                        variant="wide"
-                        className="z-10"
-                        coverColor={color}
-                        coverImage={coverUrl}
-                    />
-                </div>
             </div>
         </section>
     )
