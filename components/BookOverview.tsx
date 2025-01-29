@@ -3,7 +3,7 @@ import { BookCover } from "./BookCover";
 import { Button } from "./ui/button";
 
 
-export function BookOverview({ title, author, genre, rating, totalCopies, availableCopies, description, color, coverUrl }: Book) {
+export function BookOverview({ title, author, genre, rating, totalCopies, availableCopies, description, coverColor, coverUrl }: Book) {
     return (
         <section
             className="book-overview"
@@ -88,14 +88,14 @@ export function BookOverview({ title, author, genre, rating, totalCopies, availa
                     <BookCover
                         variant="wide"
                         className="z-10"
-                        coverColor={color}
+                        coverColor={coverColor}
                         coverImage={coverUrl}
                     />
                     <div className=" absolute left-16 top-10 opacity-40 rotate-12 max-sm:hidden ">
                         <BookCover
                             variant="wide"
                             className="z-10"
-                            coverColor={color}
+                            coverColor={coverColor}
                             coverImage={coverUrl}
                         />
                     </div>
