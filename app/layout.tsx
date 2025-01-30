@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
+import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
 import { ReactNode } from "react";
 
@@ -29,19 +31,26 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+
+  const session = await auth();
+
   return (
     <html lang="en">
-      <body
-        className={`${ibmPlexSans.className} ${babasNeue.variable} antialiased`}
+      <SessionProvider
+        session={session}
       >
-        {children}
-        <Toaster />
-      </body>
+        <body
+          className={`${ibmPlexSans.className} ${babasNeue.variable} antialiased`}
+        >
+          {children}
+          <Toaster />
+        </body>
+      </SessionProvider>
     </html>
   );
 }

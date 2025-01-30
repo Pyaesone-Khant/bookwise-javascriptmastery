@@ -1,11 +1,17 @@
 'use client';
 
-import { cn } from "@/lib/utils";
+import { cn, getNameInitials } from "@/lib/utils";
+import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-export function Header() {
+export function Header({
+    session
+}: {
+    session: Session
+}) {
 
     const pathname = usePathname();
 
@@ -38,6 +44,22 @@ export function Header() {
                         )}
                     >
                         Library
+                    </Link>
+                </li>
+
+                <li>
+                    <Link
+                        href={'/profile'}
+                    >
+                        <Avatar>
+                            <AvatarImage
+                                src={session?.user?.image!}
+                                alt={session?.user?.name!}
+                            />
+                            <AvatarFallback>
+                                {getNameInitials(session?.user?.name ?? 'User')}
+                            </AvatarFallback>
+                        </Avatar>
                     </Link>
                 </li>
             </ul>
