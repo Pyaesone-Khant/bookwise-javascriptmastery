@@ -18,9 +18,9 @@ const ibmPlexSans = localFont({
 
 const babasNeue = localFont({
   src: [
-    { path: "/fonts/BebasNeue-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/BebasNeue-Regular.ttf", weight: "400", style: "normal" },
   ],
-  variable: "--babas-neue"
+  variable: "--bebas-neue"
 })
 
 export const metadata: Metadata = {

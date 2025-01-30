@@ -5,9 +5,18 @@ import { users } from "@/database/schema";
 import { db } from "@/db";
 import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { ratelimit } from "../ratelimit";
 
 export const signup = async (params: AuthCredentials) => {
     const { fullName, email, password, universityId, universityCard } = params;
+
+    const ip = (await headers()).get('x-forwarded-for') ?? "127.0.0.1";
+
+    const { success } = await ratelimit.limit(ip);
+
+    if (!success) return redirect("/too-fast")
 
     // check if the user already exists
     const existingUsers = await db.select().from(users).where(eq(users.email, email)).limit(1).execute();
@@ -40,6 +49,12 @@ export const signup = async (params: AuthCredentials) => {
 export const signinWithCredentials = async (params: Pick<AuthCredentials, 'email' | 'password'>) => {
 
     const { email, password } = params;
+
+    const ip = (await headers()).get('x-forwarded-for') ?? "127.0.0.1";
+
+    const { success } = await ratelimit.limit(ip);
+
+    if (!success) return redirect("/too-fast");
 
     try {
 
