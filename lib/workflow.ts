@@ -23,7 +23,7 @@ export const sendEmail = async ({
             provider: resend({ token: config.env.resendToken }),
         },
         body: {
-            from: "JSM x PK <hello.pyaesonekhant.space>",
+            from: "JSM x PK <contact@pyaesonekhant.space>",
             to: [email],
             subject,
             html: message,
