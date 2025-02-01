@@ -40,6 +40,10 @@ export const signup = async (params: AuthCredentials) => {
 
         await workflowClient.trigger({
             url: `${config.env.prodApiEndpoint}/api/workflow`,
+            body: {
+                email,
+                fullName
+            }
         })
 
         await signinWithCredentials({ email, password });
