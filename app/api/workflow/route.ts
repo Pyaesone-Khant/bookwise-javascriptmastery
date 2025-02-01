@@ -1,3 +1,4 @@
+import { Welcome } from "@/components/emails/Welcome"
 import { users } from "@/database/schema"
 import { db } from "@/db"
 import { sendEmail } from "@/lib/workflow"
@@ -22,8 +23,8 @@ export const { POST } = serve<InitialData>(async (context) => {
     await context.run("new-signup", async () => {
         await sendEmail({
             email,
-            subject: "Welcome to our platform!",
-            message: `Hello ${fullName}, welcome to BookWise!`
+            subject: "Welcome to BookWise!",
+            message: Welcome({ fullName })
         })
     })
 

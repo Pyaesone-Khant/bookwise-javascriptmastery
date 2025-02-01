@@ -1,6 +1,7 @@
 import { config } from "@/lib/config";
 import { Client as QStashClient, resend } from "@upstash/qstash";
 import { Client as WorkflowClient } from "@upstash/workflow";
+import { ReactElement } from "react";
 
 export const workflowClient = new WorkflowClient({
     baseUrl: config.env.upstash.qstashUrl,
@@ -15,7 +16,7 @@ export const sendEmail = async ({
 }: {
     email: string;
     subject: string;
-    message: string;
+    message: string | ReactElement;
 }) => {
     await qstashClient.publishJSON({
         api: {
