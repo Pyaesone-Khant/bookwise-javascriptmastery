@@ -1,13 +1,12 @@
-import { Client as QstashClient, resend } from "@upstash/qstash";
+import { config } from "@/lib/config";
+import { Client as QStashClient, resend } from "@upstash/qstash";
 import { Client as WorkflowClient } from "@upstash/workflow";
-import { config } from "./config";
 
 export const workflowClient = new WorkflowClient({
-    baseUrl: config.env.upstash.qstashUrl!,
-    token: config.env.upstash.qstashToken!
-})
-
-export const qstashClient = new QstashClient({ token: config.env.upstash.qstashToken });
+    baseUrl: config.env.upstash.qstashUrl,
+    token: config.env.upstash.qstashToken,
+});
+const qstashClient = new QStashClient({ token: config.env.upstash.qstashToken });
 
 export const sendEmail = async ({
     email,
@@ -26,8 +25,8 @@ export const sendEmail = async ({
         body: {
             from: "JSM x PK <hello.pyaesonekhant.space>",
             to: [email],
-            subject: subject,
+            subject,
             html: message,
         },
     });
-}
+};
