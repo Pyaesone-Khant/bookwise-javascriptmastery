@@ -7,7 +7,9 @@ import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { config } from "../config";
 import { ratelimit } from "../ratelimit";
+import { workflowClient } from "../workflow";
 
 export const signup = async (params: AuthCredentials) => {
     const { fullName, email, password, universityId, universityCard } = params;
@@ -35,6 +37,10 @@ export const signup = async (params: AuthCredentials) => {
             universityId,
             password: hashedPassword
         });
+
+        await workflowClient.trigger({
+            url: `${config.env.prodApiEndpoint}/api/workflow`,
+        })
 
         await signinWithCredentials({ email, password });
 

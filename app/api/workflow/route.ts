@@ -1,30 +1,54 @@
+import { users } from "@/database/schema"
+import { db } from "@/db"
+import { sendEmail } from "@/lib/workflow"
 import { serve } from "@upstash/workflow/nextjs"
+import { eq } from "drizzle-orm"
+
+type UserState = 'non-active' | 'active'
 
 type InitialData = {
-    email: string
+    email: string,
+    fullName: string
 }
 
-export const { POST } = serve<InitialData>(async (context) => {
-    const { email } = context.requestPayload
+const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
+const THREE_DAYS_IN_MILLISECONDS = ONE_DAY_IN_MILLISECONDS * 3
+const ONE_MONTH_IN_MILLISECONDS = ONE_DAY_IN_MILLISECONDS * 30
 
+export const { POST } = serve<InitialData>(async (context) => {
+    const { email, fullName } = context.requestPayload
+
+    // welcome email
     await context.run("new-signup", async () => {
-        await sendEmail("Welcome to the platform", email)
+        await sendEmail({
+            email,
+            subject: "Welcome to our platform!",
+            message: `Hello ${fullName}, welcome to BookWise!`
+        })
     })
 
-    await context.sleep("wait-for-3-days", 60 * 60 * 24 * 3)
+    await context.sleep("wait-for-3-days", THREE_DAYS_IN_MILLISECONDS)
 
     while (true) {
         const state = await context.run("check-user-state", async () => {
-            return await getUserState()
+            return await getUserState(email)
         })
 
         if (state === "non-active") {
             await context.run("send-email-non-active", async () => {
-                await sendEmail("Email to non-active users", email)
+                await sendEmail({
+                    email,
+                    subject: "We miss you!",
+                    message: `Hello ${fullName}, we miss you! Please come back to BookWise! There are new books waiting for you!`
+                })
             })
         } else if (state === "active") {
             await context.run("send-email-active", async () => {
-                await sendEmail("Send newsletter to active users", email)
+                await sendEmail({
+                    email,
+                    subject: "We are happy to see you active!",
+                    message: `Hello ${fullName}, we are happy to see you active on BookWise! Keep reading!`
+                })
             })
         }
 
@@ -32,14 +56,23 @@ export const { POST } = serve<InitialData>(async (context) => {
     }
 })
 
-async function sendEmail(message: string, email: string) {
-    // Implement email sending logic here
-    console.log(`Sending ${message} email to ${email}`)
-}
+const getUserState = async (email: string): Promise<UserState> => {
 
-type UserState = "non-active" | "active"
+    const user = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
-const getUserState = async (): Promise<UserState> => {
-    // Implement user state logic here
-    return "non-active"
+    if (user.length === 0) {
+        return "non-active"
+    }
+
+    const lastActivityDate = new Date(user[0]?.lastActivityDate!);
+
+    const now = new Date();
+
+    const timeDiff = now.getTime() - lastActivityDate.getTime();
+
+    if (timeDiff > THREE_DAYS_IN_MILLISECONDS && timeDiff <= ONE_MONTH_IN_MILLISECONDS) {
+        return "non-active"
+    }
+
+    return "active"
 }
