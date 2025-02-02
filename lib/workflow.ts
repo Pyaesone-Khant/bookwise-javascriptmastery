@@ -16,7 +16,7 @@ export const sendEmail = async ({
 }: {
     email: string;
     subject: string;
-    message: string | ReactElement;
+    message: ReactElement;
 }) => {
     await qstashClient.publishJSON({
         api: {
@@ -27,7 +27,7 @@ export const sendEmail = async ({
             from: "JSM x PK <contact@pyaesonekhant.space>",
             to: [email],
             subject,
-            html: message,
+            react: message,
         },
     });
 };

@@ -1,3 +1,4 @@
+import { Reminder } from "@/components/emails/Reminder"
 import { Welcome } from "@/components/emails/Welcome"
 import { users } from "@/database/schema"
 import { db } from "@/db"
@@ -40,7 +41,7 @@ export const { POST } = serve<InitialData>(async (context) => {
                 await sendEmail({
                     email,
                     subject: "We miss you!",
-                    message: `Hello ${fullName}, we miss you! Please come back to BookWise! There are new books waiting for you!`
+                    message: Reminder({ fullName, active: false })
                 })
             })
         } else if (state === "active") {
@@ -48,7 +49,7 @@ export const { POST } = serve<InitialData>(async (context) => {
                 await sendEmail({
                     email,
                     subject: "We are happy to see you active!",
-                    message: `Hello ${fullName}, we are happy to see you active on BookWise! Keep reading!`
+                    message: Reminder({ fullName, active: true })
                 })
             })
         }
