@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/client";
 import { users } from "@/database/schema";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";

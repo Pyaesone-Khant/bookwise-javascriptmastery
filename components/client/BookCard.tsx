@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "../ui/button";
 import { BookCover } from "./BookCover";
-import { Button } from "./ui/button";
 
 export function BookCard({ id, title, genre, coverColor, coverUrl, isLoanedBook = false }: Book) {
     return (

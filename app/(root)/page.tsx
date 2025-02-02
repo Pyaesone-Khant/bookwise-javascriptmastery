@@ -1,5 +1,4 @@
-import { BookList } from "@/components/BookList";
-import { BookOverview } from "@/components/BookOverview";
+import { BookList, BookOverview } from "@/components/client";
 import { sampleBooks } from "@/constants";
 
 export default async function Home() {

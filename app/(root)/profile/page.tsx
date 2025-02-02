@@ -1,5 +1,5 @@
 import { signOut } from "@/auth";
-import { BookList } from "@/components/BookList";
+import { BookList } from "@/components/client";
 import { Button } from "@/components/ui/button";
 import { sampleBooks } from "@/constants";
 
