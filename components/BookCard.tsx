@@ -4,7 +4,7 @@ import Link from "next/link";
 import { BookCover } from "./BookCover";
 import { Button } from "./ui/button";
 
-export function BookCard({ id, title, genre, color, coverUrl, isLoanedBook = false }: Book) {
+export function BookCard({ id, title, genre, coverColor, coverUrl, isLoanedBook = false }: Book) {
     return (
         <li
             className={cn({
@@ -18,7 +18,7 @@ export function BookCard({ id, title, genre, color, coverUrl, isLoanedBook = fal
                 })}
             >
                 <BookCover
-                    coverColor={color}
+                    coverColor={coverColor}
                     coverImage={coverUrl}
                 />
 
