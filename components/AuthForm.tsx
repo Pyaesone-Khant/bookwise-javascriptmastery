@@ -1,6 +1,6 @@
 'use client';
 
-import { ImageUpload } from "@/components/ImageUpload";
+import { FileUpload } from "@/components/FileUpload";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -97,7 +97,12 @@ export function AuthForm<T extends FieldValues>({ type, schema, defaultValues, o
 
                                             {
                                                 field.name === "universityCard" ? (
-                                                    <ImageUpload
+                                                    <FileUpload
+                                                        type="image"
+                                                        accept="image/*"
+                                                        placeholder="Upload your ID"
+                                                        variant="dark"
+                                                        folder="ids"
                                                         onFileChange={field.onChange}
                                                     />
                                                 ) : (

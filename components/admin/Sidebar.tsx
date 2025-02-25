@@ -36,7 +36,7 @@ export function Sidebar({ session }: { session: Session }) {
                 >
                     {
                         adminSideBarLinks.map(link => {
-                            const isSelected = (link.route !== 'admin' && pathname.includes(link.route) && link.route.length > 1) || pathname === link.route;
+                            const isSelected = (link.route !== '/admin' && pathname.includes(link.route) && link.route.length > -1) || pathname === link.route;
 
                             return (
                                 <Link

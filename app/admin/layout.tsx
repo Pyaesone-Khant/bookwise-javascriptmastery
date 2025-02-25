@@ -18,14 +18,19 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                 session={session}
             />
 
-            <div
-                className="admin-container"
+            <section
+                // className="admin-container"
+                className="w-full"
             >
                 <Header
                     session={session}
                 />
-                {children}
-            </div>
+                <div
+                    className="p-8 bg-light-300"
+                >
+                    {children}
+                </div>
+            </section>
         </main>
     )
 }
