@@ -1,7 +1,7 @@
 interface Book {
     title: string;
     author: string;
-    id: number;
+    id: string;
     genre: string;
     rating: number;
     totalCopies: number;
@@ -12,6 +12,7 @@ interface Book {
     videoUrl: string;
     summary: string;
     isLoanedBook?: boolean;
+    createdAt: Date | null;
 }
 
 interface AuthCredentials {

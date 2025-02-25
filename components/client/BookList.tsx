@@ -11,6 +11,9 @@ export function BookList({
     books,
     containerClassName,
 }: Props) {
+
+    if (books?.length < 2) return null;
+
     return (
         <section
             className={containerClassName}
