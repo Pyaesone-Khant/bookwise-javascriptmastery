@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
+import { createBookAction } from "@/lib/admin/actions/book";
 import { BookSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -43,7 +45,20 @@ export function BookForm({ type }: Props) {
     })
 
     const onSubmit = async (data: z.infer<typeof BookSchema>) => {
-        console.log(data)
+        const result = await createBookAction(data);
+        if (result?.success) {
+            toast({
+                title: 'Scuccess',
+                description: 'Book created successfully!',
+            });
+            router.push(`/admin/books/${result?.data.id}`)
+        } else {
+            toast({
+                title: 'Error',
+                description: result?.message ?? 'Error while creating book!',
+                variant: 'destructive'
+            })
+        }
     }
 
     return (
