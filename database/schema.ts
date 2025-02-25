@@ -34,3 +34,14 @@ export const books = pgTable('books', {
     description: text('description').notNull(),
     createdAt: timestamp('created_at', { withTimezone: true })
 })
+
+export const borrowedBooks = pgTable('borrowed_books', {
+    id: uuid('id').notNull().primaryKey().defaultRandom().unique(),
+    bookId: uuid('book_id').notNull().references(() => books.id),
+    userId: uuid('user_id').notNull().references(() => users.id),
+    borrowDate: date('borrow_date').notNull().defaultNow(),
+    dueDate: date('due_date').notNull(),
+    returnDate: date('return_date'),
+    status: BORROW_STATUS_ENUM('status').default('BORROWED'),
+    createdAt: timestamp('created_at', { withTimezone: true })
+})

@@ -35,3 +35,8 @@ interface BookParams {
     totalCopies: number;
     coverColor: string;
 }
+
+interface BorrowBookParams {
+    bookId: string;
+    userId: string;
+}

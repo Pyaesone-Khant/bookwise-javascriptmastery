@@ -1,9 +1,20 @@
-import { signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { BookList } from "@/components/client";
 import { Button } from "@/components/ui/button";
-import { sampleBooks } from "@/constants";
+import { borrowedBooks } from "@/database/schema";
+import { db } from "@/db";
+import { redirect } from "next/navigation";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+
+    const session = await auth();
+
+    if (!session) redirect('/sign-in');
+
+    const borrowedBookList = await db.select().from(borrowedBooks);
+
+    console.log(borrowedBookList)
+
     return (
         <>
             <form
@@ -19,10 +30,18 @@ export default function ProfilePage() {
                 </Button>
             </form>
 
-            <BookList
-                title="Borrowed Books"
-                books={sampleBooks}
-            />
+            {
+                borrowedBookList?.length > 0 ? (
+                    <BookList
+                        title="Borrowed Books"
+                        books={borrowedBookList}
+                    />
+                ) : (
+                    <div>
+
+                    </div>
+                )
+            }
         </>
     )
 }

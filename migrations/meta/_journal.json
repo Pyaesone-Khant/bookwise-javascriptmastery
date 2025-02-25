@@ -15,6 +15,13 @@
       "when": 1740491995500,
       "tag": "0001_tan_william_stryker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740498759862,
+      "tag": "0002_curved_energizer",
+      "breakpoints": true
     }
   ]
 }
