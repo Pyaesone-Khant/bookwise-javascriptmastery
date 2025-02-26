@@ -43,18 +43,18 @@ export default async function Layout({
         <main
             className="root-container"
         >
-            <div
-                className="mx-auto max-w-7xl w-full"
+            <Header
+                session={session}
+            />
+            <section
+                className="px-5 xs:px-10 md:px-16"
             >
-                <Header
-                    session={session}
-                />
                 <div
-                    className="mt-20 pb-20"
+                    className="py-10 mx-auto max-w-7xl w-full"
                 >
                     {children}
                 </div>
-            </div>
+            </section>
         </main>
     )
 }
