@@ -4,6 +4,8 @@ import { eq } from "drizzle-orm";
 import Image from "next/image";
 import { BookCover } from "./BookCover";
 import BorrowBookButton from "./BorrowBookButton";
+import { DownloadReceiptButton } from "./DownloadReceiptButton";
+import { ReturnBookButton } from "./ReturnBookButton";
 
 interface Props extends Book {
     userId: string;
@@ -21,6 +23,7 @@ export async function BookOverview({
     coverUrl,
     id,
     userId,
+    isLoanedBook,
 }: Props) {
     const [user] = await db
         .select()
@@ -72,11 +75,20 @@ export async function BookOverview({
                 </div>
                 <p className="book-description">{description}</p>
 
-                {
-                    user && (
-                        <BorrowBookButton bookId={id} userId={userId} borrowingEligiblity={borrowingEligiblity} />
-                    )
-                }
+                {user && !isLoanedBook && (
+                    <BorrowBookButton
+                        bookId={id}
+                        userId={userId}
+                        borrowingEligiblity={borrowingEligiblity}
+                    />
+                )}
+
+                {isLoanedBook && (
+                    <div className="flex flex-row gap-6 mt-4">
+                        <ReturnBookButton bookId={id} userId={userId} />
+                        <DownloadReceiptButton />
+                    </div>
+                )}
             </div>
 
             <div className="relative flex flex-1 justify-center">

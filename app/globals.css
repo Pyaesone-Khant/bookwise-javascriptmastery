@@ -29,7 +29,7 @@
 
 @layer components {
   .form-btn {
-    @apply bg-primary text-dark-100 hover:bg-primary inline-flex min-h-14 w-full items-center justify-center rounded-md px-6 py-2 font-bold text-base !important;
+    @apply bg-primary text-dark-100 hover:bg-primary/80 disabled:hover:bg-current inline-flex min-h-14 w-full items-center justify-center rounded-md px-6 py-2 font-bold text-base !important;
   }
 
   .form-input {
@@ -46,11 +46,11 @@
   }
 
   .book-loaned {
-    @apply flex flex-row items-center gap-1 max-xs:justify-center;
+    @apply flex flex-row items-center gap-1;
   }
 
   .book-btn {
-    @apply !bg-dark-600 mt-3 min-h-14 w-full font-bebas-neue uppercase text-base text-primary;
+    @apply !bg-dark-600 min-h-14 font-bebas-neue uppercase !text-base text-primary;
   }
 
   /* Borrowed Book */
@@ -69,7 +69,8 @@
   }
 
   .book-cover {
-    @apply xs:w-[174px] w-[114px] xs:h-[239px] h-[169px];
+    /* @apply xs:w-[174px] w-[114px] xs:h-[239px] h-[169px]; */
+    @apply w-full aspect-[5/7];
   }
 
   .book-cover_wide {
@@ -78,7 +79,7 @@
 
   /* Book List */
   .book-list {
-    @apply mt-10 flex flex-wrap gap-5 max-xs:justify-between xs:gap-10;
+    @apply mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 md:gap-16 place-items-center items-start ;
   }
 
   /* Book Overview */
@@ -111,7 +112,7 @@
   }
 
   .book-overview_btn {
-    @apply mt-4 min-h-14 w-fit bg-primary text-dark-100 hover:bg-primary/90 max-md:w-full !important;
+    @apply min-h-14 w-fit bg-primary text-dark-100 hover:bg-primary/90 max-md:w-full !important;
   }
 
   /* File Upload */
@@ -250,7 +251,7 @@
 
   /* Root */
   .root-container {
-    @apply flex min-h-screen flex-1 flex-col bg-pattern bg-cover bg-top bg-dark-100 px-5 xs:px-10 md:px-16;
+    @apply flex min-h-screen flex-1 flex-col bg-pattern bg-cover bg-top bg-dark-100;
   }
 
   /* Book Details */

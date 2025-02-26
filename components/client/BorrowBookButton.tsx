@@ -4,6 +4,7 @@ import { toast } from "@/hooks/use-toast";
 import { borrowBookAction } from "@/lib/actions/book";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import nProgress from "nprogress";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
@@ -30,6 +31,7 @@ export default function BorrowBookButton({ bookId, userId, borrowingEligiblity }
             })
         }
 
+        nProgress.start()
         setLoading(true)
         try {
             const result = await borrowBookAction({
@@ -57,6 +59,7 @@ export default function BorrowBookButton({ bookId, userId, borrowingEligiblity }
                 variant: "destructive"
             })
         } finally {
+            nProgress.done();
             setLoading(false);
         }
     }
@@ -66,20 +69,20 @@ export default function BorrowBookButton({ bookId, userId, borrowingEligiblity }
             className="book-overview_btn"
             size={'lg'}
             onClick={handleBorrowBook}
-            disabled={loading}
+            loading={loading}
+            icon={
+                <Image
+                    src={"/icons/book.svg"}
+                    alt="book"
+                    width={20}
+                    height={20}
+                />
+            }
         >
-            <Image
-                src={"/icons/book.svg"}
-                alt="book"
-                width={24}
-                height={24}
-            />
             <p
-                className=" font-bebas-neue text-xl text-dark-100 uppercase"
+                className=" font-bebas-neue text-base text-dark-100 uppercase"
             >
-                {
-                    loading ? 'Borrowing...' : 'Borrow Book'
-                }
+                Borrow Book
             </p>
         </Button>
     )

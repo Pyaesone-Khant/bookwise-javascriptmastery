@@ -1,20 +1,18 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
 import { BookCover } from "./BookCover";
+import { DownloadReceiptButton } from "./DownloadReceiptButton";
 
 export function BookCard({ id, title, genre, coverColor, coverUrl, isLoanedBook = false }: Book) {
     return (
         <li
-            className={cn({
-                "xs:w-52 w-full": isLoanedBook,
-            })}
+            className={cn('w-full')}
         >
             <Link
                 href={`/books/${id}`}
                 className={cn({
-                    "w-full flex flex-col items-center": isLoanedBook
+                    "w-full flex flex-col": isLoanedBook
                 })}
             >
                 <BookCover
@@ -23,9 +21,7 @@ export function BookCard({ id, title, genre, coverColor, coverUrl, isLoanedBook 
                 />
 
                 <div
-                    className={cn('mt-4', {
-                        "xs:max-w-40 max-w-28": !isLoanedBook
-                    })}
+                    className={cn('mt-4')}
                 >
                     <h3
                         className="book-title"
@@ -42,30 +38,29 @@ export function BookCard({ id, title, genre, coverColor, coverUrl, isLoanedBook 
                 {
                     isLoanedBook && (
                         <div
-                            className="mt-3 w-full"
+                            className=" space-y-3 mt-3 w-full"
                         >
                             <div
                                 className="book-loaned"
                             >
-                                <Image
-                                    src={'/icons/calendar.svg'}
-                                    alt="calendar"
-                                    width={24}
-                                    height={24}
-                                    className="object-contain"
-                                />
+                                <div
+                                    className="relative size-5 max-sm:size-4 aspect-square "
+                                >
+                                    <Image
+                                        src={'/icons/calendar.svg'}
+                                        alt="calendar"
+                                        fill
+                                        className="object-contain w-full h-full"
+                                    />
+                                </div>
                                 <p
-                                    className="text-light-100"
+                                    className="text-primary text-sm"
                                 >
                                     11 days left to return
                                 </p>
                             </div>
 
-                            <Button
-                                className="book-btn"
-                            >
-                                Download Receipt
-                            </Button>
+                            <DownloadReceiptButton />
                         </div>
                     )
                 }

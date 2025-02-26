@@ -1,9 +1,7 @@
 import { auth } from "@/auth";
 import { BookOverview } from "@/components/client";
 import { BookVideo } from "@/components/client/BookVideo";
-import { books } from "@/database/schema";
-import { db } from "@/db";
-import { eq } from "drizzle-orm";
+import { getBookDetail } from "@/lib/apis/queries";
 import { redirect } from "next/navigation";
 
 export default async function BookDetaiPage({ params }: { params: Promise<{ id: string }> }) {
@@ -12,18 +10,15 @@ export default async function BookDetaiPage({ params }: { params: Promise<{ id: 
 
     const session = await auth();
 
-    const [bookDetail] = await db.select()
-        .from(books)
-        .where(eq(books.id, id))
-        .limit(1);
+    const bookDetail = await getBookDetail(id, session?.user?.id!);
 
-    if (!bookDetail) return redirect('/404')
+    if (!bookDetail) return redirect('/404');
 
     return (
         <>
             <BookOverview
                 {...bookDetail}
-                userId={session?.user?.id}
+                userId={session?.user?.id!}
             />
             <div
                 className="book-details"
