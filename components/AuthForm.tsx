@@ -16,6 +16,7 @@ import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import nProgress from "nprogress";
 import { DefaultValues, FieldValues, Path, SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { ZodType } from "zod";
 
@@ -40,6 +41,7 @@ export function AuthForm<T extends FieldValues>({ type, schema, defaultValues, o
     })
 
     const handleSubmit: SubmitHandler<T> = async (data) => {
+        nProgress.start()
         const result = await onSubmit(data);
 
         if (result?.success) {
@@ -55,6 +57,7 @@ export function AuthForm<T extends FieldValues>({ type, schema, defaultValues, o
                 variant: 'destructive'
             })
         }
+        nProgress.done()
     }
 
     const isSignin = type === FormTypes.SIGN_IN

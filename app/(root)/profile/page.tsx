@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { borrowedBooks } from "@/database/schema";
 import { db } from "@/db";
 import { redirect } from "next/navigation";
+import nProgress from "nprogress";
 
 export default async function ProfilePage() {
 
@@ -17,11 +18,13 @@ export default async function ProfilePage() {
 
     return (
         <>
-            <form
+            <form 
                 action={async () => {
                     'use server';
 
+                    nProgress.start();
                     await signOut();
+                    nProgress.done();
                 }}
                 className="mb-10"
             >

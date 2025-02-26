@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import "nprogress/nprogress.css";
 import "./globals.css";
 
 import { auth } from "@/auth";
+import { NProgressBar } from "@/components/NProgressBar";
 import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
@@ -47,6 +49,7 @@ export default async function RootLayout({
         <body
           className={`${ibmPlexSans.className} ${babasNeue.variable} antialiased`}
         >
+          <NProgressBar />
           {children}
           <Toaster />
         </body>
