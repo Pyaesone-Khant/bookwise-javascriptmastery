@@ -32,7 +32,7 @@ export const books = pgTable('books', {
     videoUrl: text('video_url').notNull(),
     summary: text('summary').notNull(),
     description: text('description').notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 })
 
 export const borrowedBooks = pgTable('borrowed_books', {
@@ -43,5 +43,5 @@ export const borrowedBooks = pgTable('borrowed_books', {
     dueDate: date('due_date').notNull(),
     returnDate: date('return_date'),
     status: BORROW_STATUS_ENUM('status').default('BORROWED'),
-    createdAt: timestamp('created_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 })
