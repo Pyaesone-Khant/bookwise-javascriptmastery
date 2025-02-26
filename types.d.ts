@@ -40,3 +40,7 @@ interface BorrowBookParams {
     bookId: string;
     userId: string;
 }
+
+interface ReturnBookParams extends BorrowBookParams {
+    pathToRevalidate: string
+}

@@ -1,23 +1,19 @@
 import { auth } from "@/auth";
 import { BookList, BookOverview } from "@/components/client";
-import { books } from "@/database/schema";
-import { db } from "@/db";
-import { desc } from "drizzle-orm";
+import { getBookList } from "@/lib/apis/queries";
 
 export default async function Home() {
 
   const session = await auth();
+  const userId = session?.user?.id as string;
 
-  const latestBooks = (await db.select()
-    .from(books)
-    .limit(10)
-    .orderBy(desc(books.createdAt))) as Book[]
+  const latestBooks = await getBookList(userId!)
 
   return (
     <>
       <BookOverview
         {...latestBooks[0]}
-        userId={session?.user?.id as string}
+        userId={userId}
       />
       <BookList
         title={'Latest Books'}

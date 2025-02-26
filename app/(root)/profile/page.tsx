@@ -1,9 +1,9 @@
 import { auth, signOut } from "@/auth";
 import { BookList } from "@/components/client";
 import { Button } from "@/components/ui/button";
-import { borrowedBooks } from "@/database/schema";
-import { db } from "@/db";
+import { getBorrowedBooks } from "@/lib/apis/queries";
 import { redirect } from "next/navigation";
+import nProgress from "nprogress";
 
 export default async function ProfilePage() {
 
@@ -11,9 +11,7 @@ export default async function ProfilePage() {
 
     if (!session) redirect('/sign-in');
 
-    const borrowedBookList = await db.select().from(borrowedBooks);
-
-    console.log(borrowedBookList)
+    const borrowedBookList = await getBorrowedBooks(session?.user?.id!);
 
     return (
         <>
@@ -21,7 +19,9 @@ export default async function ProfilePage() {
                 action={async () => {
                     'use server';
 
+                    nProgress.start();
                     await signOut();
+                    nProgress.done();
                 }}
                 className="mb-10"
             >
@@ -35,10 +35,13 @@ export default async function ProfilePage() {
                     <BookList
                         title="Borrowed Books"
                         books={borrowedBookList}
+                        isInProfile={true}
                     />
                 ) : (
-                    <div>
-
+                    <div
+                        className="text-center text-lg text-light-100 p-10"
+                    >
+                        No books borrowed yet!
                     </div>
                 )
             }

@@ -189,7 +189,7 @@ export function FileUpload({
             }
 
             {
-                file && (
+                file?.filePath && (
                     type === 'image' ? (
                         <IKImage
                             alt={file.filePath ?? 'Image'}

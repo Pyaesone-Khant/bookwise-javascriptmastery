@@ -16,6 +16,8 @@ import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import nProgress from "nprogress";
+import { useState } from "react";
 import { DefaultValues, FieldValues, Path, SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { ZodType } from "zod";
 
@@ -33,6 +35,7 @@ interface Props<T extends FieldValues> {
 
 export function AuthForm<T extends FieldValues>({ type, schema, defaultValues, onSubmit }: Props<T>) {
 
+    const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter();
     const form: UseFormReturn<T> = useForm({
         resolver: zodResolver(schema),
@@ -40,6 +43,8 @@ export function AuthForm<T extends FieldValues>({ type, schema, defaultValues, o
     })
 
     const handleSubmit: SubmitHandler<T> = async (data) => {
+        nProgress.start()
+        setLoading(true)
         const result = await onSubmit(data);
 
         if (result?.success) {
@@ -55,6 +60,8 @@ export function AuthForm<T extends FieldValues>({ type, schema, defaultValues, o
                 variant: 'destructive'
             })
         }
+        setLoading(false)
+        nProgress.done()
     }
 
     const isSignin = type === FormTypes.SIGN_IN
@@ -126,7 +133,7 @@ export function AuthForm<T extends FieldValues>({ type, schema, defaultValues, o
                     <Button
                         type="submit"
                         className="form-btn"
-
+                        loading={loading}
                     >
                         {isSignin ? "Sign in" : "Sign up"}
                     </Button>

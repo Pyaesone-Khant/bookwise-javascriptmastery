@@ -2,17 +2,19 @@ import { BookCard } from "./BookCard";
 
 interface Props {
     title: string;
-    books: Book[];
+    books: Book[] | [];
     containerClassName?: string;
+    isInProfile?: boolean;
 }
 
 export function BookList({
     title,
     books,
     containerClassName,
+    isInProfile = false
 }: Props) {
 
-    if (books?.length < 2) return null;
+    if (!isInProfile && books?.length! < 2) return null;
 
     return (
         <section
