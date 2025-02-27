@@ -3,7 +3,6 @@ import { BookList } from "@/components/client";
 import { Button } from "@/components/ui/button";
 import { getBorrowedBooks } from "@/lib/apis/queries";
 import { redirect } from "next/navigation";
-import nProgress from "nprogress";
 
 export default async function ProfilePage() {
 
@@ -18,10 +17,8 @@ export default async function ProfilePage() {
             <form
                 action={async () => {
                     'use server';
-
-                    nProgress.start();
                     await signOut();
-                    nProgress.done();
+                    redirect('/sign-in');
                 }}
                 className="mb-10"
             >
