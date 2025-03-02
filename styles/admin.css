@@ -152,7 +152,7 @@
 
   /* Header */
   .admin-header {
-    @apply flex lg:items-end items-start justify-between lg:flex-row flex-col gap-5 sticky top-0 z-[9999] p-8 shadow-sm bg-light-300;
+    @apply flex lg:items-end items-start justify-between lg:flex-row flex-col gap-5 sticky top-0 z-[100] p-8 shadow-sm bg-light-300;
   }
 
   /* Search */

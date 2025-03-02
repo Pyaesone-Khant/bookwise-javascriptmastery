@@ -44,3 +44,13 @@ interface BorrowBookParams {
 interface ReturnBookParams extends BorrowBookParams {
     pathToRevalidate: string
 }
+interface BorrowedRecord {
+    id: string;
+    book: Book;
+    user: User;
+    borrowDate: string;
+    dueDate: string;
+    returnDate: string | null;
+    status: "BORROWED" | "RETURNED";
+    createdAt: Date | null;
+}

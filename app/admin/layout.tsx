@@ -39,7 +39,11 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                 <div
                     className="p-8 bg-light-300 flex-1"
                 >
-                    {children}
+                    <div
+                        className="p-6 rounded-md bg-white space-y-6"
+                    >
+                        {children}
+                    </div>
                 </div>
             </section>
         </main>
