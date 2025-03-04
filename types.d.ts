@@ -54,3 +54,13 @@ interface BorrowedRecord {
     status: "BORROWED" | "RETURNED";
     createdAt: Date | null;
 }
+
+interface User {
+    id: string;
+    fullName: string;
+    email: string;
+    universityId: number;
+    universityCard: string;
+    status: "PENDING" | "APPROVED" | "REJECTED";
+    createdAt: Date | null;
+}

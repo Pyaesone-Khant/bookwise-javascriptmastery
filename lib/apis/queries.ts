@@ -27,7 +27,7 @@ export const getBookList = async (userId?: string): Promise<Book[]> => {
     }
 }
 
-export const getBookDetail = async (bookId: string, userId: string): Promise<Book> => {
+export const getBookDetail = async (bookId: string, userId?: string): Promise<Book> => {
     try {
         const [book] = (await db
             .select()
@@ -36,7 +36,11 @@ export const getBookDetail = async (bookId: string, userId: string): Promise<Boo
             .limit(1)
             .execute()) as Book[];
 
-        const borrowedBooks = await getBorrowedBooks(userId);
+        let borrowedBooks: Book[] = [];
+
+        if (userId) {
+            borrowedBooks = await getBorrowedBooks(userId);
+        }
 
         if (borrowedBooks.some((item) => item.id === book.id)) {
             book['isLoanedBook'] = true;
@@ -87,6 +91,21 @@ export const getBorrowRecords = async () => {
             })
 
         return result;
+    } catch (error: any) {
+        throw new Error(error)
+    }
+}
+
+export const getPendingAccounts = async (): Promise<User[]> => {
+    try {
+
+        const result = await db.select()
+            .from(users)
+            .where(eq(users.status, 'PENDING'))
+            .execute()
+
+        return result as User[];
+
     } catch (error: any) {
         throw new Error(error)
     }

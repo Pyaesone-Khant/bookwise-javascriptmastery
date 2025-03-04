@@ -1,7 +1,6 @@
-import { DataTable } from "@/components/common";
+import { Books } from "@/components/admin";
 import { Button } from "@/components/ui/button";
 import { getBookList } from "@/lib/apis/queries";
-import { createColumns } from "@/lib/createColumns";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -9,16 +8,6 @@ export default async function AllBooks() {
 
     const books = await getBookList();
 
-    const columns = createColumns<Book>(
-        {
-            id: 'ID',
-            title: 'Title',
-            author: 'Author',
-            genre: 'Genre',
-            totalCopies: 'Total Copies',
-            availableCopies: 'Available Copies',
-        }
-    )
 
     return (
         <>
@@ -48,9 +37,8 @@ export default async function AllBooks() {
             </div>
 
             <div>
-                <DataTable
-                    data={books}
-                    columns={columns}
+                <Books
+                    books={books}
                 />
             </div>
 

@@ -13,52 +13,68 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { createBookAction } from "@/lib/admin/actions/book";
+import { createBookAction, updateBookAction } from "@/lib/admin/actions/book";
 import { BookSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import nProgress from "nprogress";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ColorPicker } from "../ColorPicker";
 
 interface Props extends Partial<Book> {
-    type?: 'create' | 'update'
+    type?: 'create' | 'update',
+    defaultValues?: Partial<Book>
 }
 
-export function BookForm({ type }: Props) {
+export function BookForm({ type, defaultValues }: Props) {
 
     const router = useRouter();
     const form = useForm<z.infer<typeof BookSchema>>({
         resolver: zodResolver(BookSchema),
-        defaultValues: {
-            title: '',
-            description: '',
-            author: '',
-            genre: '',
-            rating: 0,
-            totalCopies: 0,
-            coverUrl: '',
-            coverColor: '',
-            videoUrl: '',
-            summary: '',
-        }
+        defaultValues: type === 'update' ?
+            defaultValues : {
+                title: '',
+                description: '',
+                author: '',
+                genre: '',
+                rating: 0,
+                totalCopies: 0,
+                coverUrl: '',
+                coverColor: '',
+                videoUrl: '',
+                summary: '',
+            }
     })
 
     const onSubmit = async (data: z.infer<typeof BookSchema>) => {
-        const result = await createBookAction(data);
+
+        nProgress.start();
+
+        let result;
+        const errMsg = type === 'create' ? 'creating' : 'updating';
+        const successMsg = type === 'create' ? 'created' : 'updated';
+
+        if (type === 'create') {
+            result = await createBookAction(data);
+        } else if (type === 'update') {
+            result = await updateBookAction(defaultValues?.id!, data);
+        }
+
         if (result?.success) {
             toast({
                 title: 'Scuccess',
-                description: 'Book created successfully!',
+                description: result?.message ?? `Book ${successMsg} successfully!`,
             });
             router.push(`/admin/books/${result?.data.id}`)
         } else {
             toast({
                 title: 'Error',
-                description: result?.message ?? 'Error while creating book!',
+                description: result?.message ?? `Error while ${errMsg} book!`,
                 variant: 'destructive'
             })
         }
+        nProgress.done()
     }
 
     return (
